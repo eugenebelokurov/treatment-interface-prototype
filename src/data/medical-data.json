@@ -1,0 +1,63 @@
+{
+  "hypertensive_crisis": {
+    "title": "Hypertensive crisis",
+    "type": "indication",
+    "description": "Indications for the appointment",
+    "sections": {
+      "instrumental_research": {
+        "title": "Instrumental research",
+        "items": [
+          {
+            "title": "Decoding, description and interpretation of electrocardiographic data",
+            "tags": []
+          },
+          {
+            "title": "Ophthalmoscopy",
+            "tags": ["C5"]
+          },
+          {
+            "title": "Registration of electrocardiograms",
+            "tags": ["0.06", "KK", "A2"]
+          }
+        ]
+      },
+      "laboratory_research": {
+        "title": "Laboratory research",
+        "items": [
+          {
+            "title": "Registration of electrocardiograms",
+            "tags": []
+          },
+          {
+            "title": "Study of the level of troponins I, t in the blood",
+            "tags": ["C5"]
+          },
+          {
+            "title": "Studying the level of kinase of the isoenzyme creatinkinase in the blood",
+            "tags": ["0.06", "KK", "A2"]
+          },
+          {
+            "title": "Study of the level of the N-terminal fragment of the nitriuretic cerebrovascular proptide (NT-PROBNP) in the blood",
+            "tags": ["C5"]
+          },
+          {
+            "title": "Chemical-toxicological study of urine using the method of gas chromatography from mass spectrometric detective",
+            "tags": ["0.06", "KK", "A2"]
+          },
+          {
+            "title": "Examination of gaptoglobin levels in the blood",
+            "tags": ["C5"]
+          },
+          {
+            "title": "The blood potassium study in the blood",
+            "tags": ["0.06", "KK", "A2"]
+          },
+          {
+            "title": "Creatinin level examination in the blood",
+            "tags": ["C5"]
+          }
+        ]
+      }
+    }
+  }
+}
