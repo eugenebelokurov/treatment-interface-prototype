@@ -10,6 +10,9 @@ interface RightSidebarProps {
 }
 
 export function RightSidebar({ prescriptions, onRemovePrescription, onUpdateComment }: RightSidebarProps) {
+  const diagnosticPrescriptions = prescriptions.filter((p) => p.sectionTitle === "Diagnostics")
+  const treatmentPrescriptions = prescriptions.filter((p) => p.sectionTitle === "Treatment")
+
   return (
     <div className="w-120 bg-[#F5FAF8] border-l flex flex-col h-full">
       {/* Scrollable Content Area */}
@@ -26,9 +29,9 @@ export function RightSidebar({ prescriptions, onRemovePrescription, onUpdateComm
         <div className="space-y-6">
           <div>
             <h3 className="font-medium mb-3 text-sm">Diagnostics</h3>
-            {prescriptions.length > 0 ? (
+            {diagnosticPrescriptions.length > 0 ? (
               <div className="space-y-3">
-                {prescriptions.map((item) => (
+                {diagnosticPrescriptions.map((item) => (
                   <PrescriptionItem
                     key={item.id}
                     item={item}
@@ -44,7 +47,20 @@ export function RightSidebar({ prescriptions, onRemovePrescription, onUpdateComm
 
           <div>
             <h3 className="font-medium mb-3 text-sm">Treatment</h3>
-            <EmptyPrescription value="An example of the prescribed treatment" />
+            {treatmentPrescriptions.length > 0 ? (
+              <div className="space-y-3">
+                {treatmentPrescriptions.map((item) => (
+                  <PrescriptionItem
+                    key={item.id}
+                    item={item}
+                    onRemove={onRemovePrescription}
+                    onCommentChange={onUpdateComment}
+                  />
+                ))}
+              </div>
+            ) : (
+              <EmptyPrescription value="An example of the prescribed treatment" />
+            )}
           </div>
         </div>
 
@@ -54,20 +70,22 @@ export function RightSidebar({ prescriptions, onRemovePrescription, onUpdateComm
 
       {/* Fixed Bottom Button */}
       <div className="p-3">
-        <Button className="w-full h-20" disabled={prescriptions.length === 0}>Record to the card</Button>
+        <Button className="w-full h-20" disabled={prescriptions.length === 0}>
+          Record to the card
+        </Button>
       </div>
     </div>
   )
 }
 
 interface EmptyPrescriptionProps {
-    value: string;
+  value: string
 }
 
-function EmptyPrescription( {value}: EmptyPrescriptionProps) {
-    return (
-        <div className="flex flex-row justify-center items-center border-dashed border-2 border-[#CBCBCB] min-h-36 rounded-sm fill-[#FCFFFE]">
-            <p className="text-sm font-semibold text-[#B3B3B3]">{value}</p>
-        </div>
-    )
+function EmptyPrescription({ value }: EmptyPrescriptionProps) {
+  return (
+    <div className="flex flex-row justify-center items-center border-dashed border-2 border-[#CBCBCB] min-h-36 rounded-sm fill-[#FCFFFE]">
+      <p className="text-sm font-semibold text-[#B3B3B3]">{value}</p>
+    </div>
+  )
 }

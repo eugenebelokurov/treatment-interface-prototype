@@ -1,8 +1,11 @@
+"use client"
+
+import { useState } from "react"
 import { ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
-// import { AdditionalActions } from "./additional-actions"
 import { TemplateCard } from "./template-card"
 import { SidebarNavigation } from "./sidebar-navigation"
+import { TemplateSidePanel } from "./template-side-panel"
 
 const additionalActions = [
   { title: "Services", description: "Add from the price list" },
@@ -49,9 +52,33 @@ const templates = [
   },
 ]
 
-export function LeftSidebar() {
+interface LeftSidebarProps {
+  onAddToCard: (template: any) => void
+}
+
+export function LeftSidebar({ onAddToCard }: LeftSidebarProps) {
+  const [isPanelOpen, setIsPanelOpen] = useState(false)
+  const [selectedTemplate, setSelectedTemplate] = useState<(typeof templates)[0] | null>(null)
+
+  const handleOpenPanel = (template: (typeof templates)[0]) => {
+    setSelectedTemplate(template)
+    setIsPanelOpen(true)
+  }
+
+  const handleClosePanel = () => {
+    setIsPanelOpen(false)
+    setSelectedTemplate(null)
+  }
+
+  const handleAddToCard = () => {
+    if (selectedTemplate) {
+      onAddToCard(selectedTemplate)
+    }
+    handleClosePanel()
+  }
+
   return (
-    <div className="w-64 bg-[#F5F7F6] border-r flex flex-col h-full">
+    <div className="relative w-64 bg-[#F5F7F6] border-r flex flex-col h-full">
       {/* Fixed Top Section - Additional Actions */}
       <div className="flex-shrink-0 p-1 border-b">
         <AdditionalActions actions={additionalActions} />
@@ -80,7 +107,12 @@ export function LeftSidebar() {
           </style>
           <div className="space-y-4">
             {templates.map((template, index) => (
-              <TemplateCard key={index} {...template} />
+              <TemplateCard
+                key={index}
+                {...template}
+                onOpen={() => handleOpenPanel(template)}
+                isSelected={selectedTemplate?.title === template.title && isPanelOpen}
+              />
             ))}
           </div>
         </div>
@@ -90,6 +122,14 @@ export function LeftSidebar() {
       <div className="flex-shrink-0 border-t">
         <SidebarNavigation />
       </div>
+      {isPanelOpen && selectedTemplate && (
+        <TemplateSidePanel
+          template={selectedTemplate}
+          onClose={handleClosePanel}
+          isOpen={isPanelOpen}
+          onAddToCard={handleAddToCard}
+        />
+      )}
     </div>
   )
 }

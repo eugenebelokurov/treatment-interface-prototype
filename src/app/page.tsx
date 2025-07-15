@@ -9,6 +9,26 @@ import { SearchModal } from "@/components/search-modal"
 import { usePrescriptions } from "@/hooks/use-prescriptions"
 import medicalData from "@/data/medical-data.json"
 
+const diagnosticsList = [
+  "Decoding, description and interpretation of electrocardiographic data",
+  "Ophthalmoscopy",
+  "Study of the level of troponins I, t in the blood",
+  "Consultation of a neurologist",
+]
+
+const treatmentList = [
+  "Auscultation of the heart",
+  "Measurement of blood pressure",
+  "General blood analysis",
+  "Biochemical blood test",
+  "General urine analysis",
+  "ECG",
+  "Echocardiography",
+  "Ultrasound of the kidneys",
+  "Consultation of an ophthalmologist",
+  "Consultation of a neurologist",
+]
+
 export default function MedicalInterface() {
   const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set())
   const [isSearchOpen, setIsSearchOpen] = useState(false)
@@ -42,6 +62,30 @@ export default function MedicalInterface() {
     setIsSearchOpen(true)
   }
 
+  const handleAddToCard = (template: any) => {
+    const diagnosticsToAdd = diagnosticsList
+      .slice(0, template.diagnostics as number)
+      .map((item) => ({ id: item, title: item, tags: [], sectionTitle: "Diagnostics" }))
+
+    const treatmentsToAdd = treatmentList
+      .slice(0, template.treatment as number)
+      .map((item) => ({ id: item, title: item, tags: [], sectionTitle: "Treatment" }))
+
+    diagnosticsToAdd.forEach((item) => {
+      if (!isPrescribed(item.id)) {
+        addPrescription(item)
+        setCheckedItems((prev) => new Set(prev).add(item.id))
+      }
+    })
+
+    treatmentsToAdd.forEach((item) => {
+      if (!isPrescribed(item.id)) {
+        addPrescription(item)
+        setCheckedItems((prev) => new Set(prev).add(item.id))
+      }
+    })
+  }
+
   return (
     <div className="h-screen flex flex-col bg-[#FCFFFE] overflow-hidden">
       {/* Fixed Header */}
@@ -49,7 +93,7 @@ export default function MedicalInterface() {
 
       {/* Main Content Area - Takes remaining height */}
       <div className="flex flex-1 min-h-0">
-        <LeftSidebar />
+        <LeftSidebar onAddToCard={handleAddToCard} />
         <MainContent medicalData={medicalData} checkedItems={checkedItems} onItemToggle={handleItemToggle} />
         <RightSidebar
           prescriptions={prescriptions}
