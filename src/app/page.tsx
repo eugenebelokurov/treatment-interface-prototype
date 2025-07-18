@@ -32,17 +32,27 @@ const treatmentList = [
 export default function MedicalInterface() {
   const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set())
   const [isSearchOpen, setIsSearchOpen] = useState(false)
-  const { prescriptions, addPrescription, removePrescription, updateComment, isPrescribed } = usePrescriptions()
+  const { prescriptions, setPrescriptions, addPrescription, removePrescription, updateComment, isPrescribed } = usePrescriptions()
 
   const handleItemToggle = (
     checked: boolean,
-    item: { id: string; title: string; tags: string[]; sectionTitle: string },
+    item: { id: string; title: string; tags: string[]; sectionTitle?: string },
+    sectionTitle?: string,
   ) => {
     const newCheckedItems = new Set(checkedItems)
+    const safeSectionTitle = sectionTitle ?? ""; // or provide a more meaningful default
+
+    const prescriptionItem = {
+      sectionTitle: safeSectionTitle,
+      id: item.id,
+      title: item.title,
+      tags: item.tags,
+      comment: "",
+    }
 
     if (checked) {
       newCheckedItems.add(item.id)
-      addPrescription(item)
+      addPrescription(prescriptionItem)
     } else {
       newCheckedItems.delete(item.id)
       removePrescription(item.id)
@@ -65,41 +75,35 @@ export default function MedicalInterface() {
   const handleAddToCard = (template: any) => {
     const diagnosticsToAdd = diagnosticsList
       .slice(0, template.diagnostics as number)
-      .map((item) => ({ id: item, title: item, tags: [], sectionTitle: "Diagnostics" }))
+      .map((item) => ({ id: item, title: item, tags: [], sectionTitle: "Diagnostics", comment: "" }))
 
     const treatmentsToAdd = treatmentList
       .slice(0, template.treatment as number)
-      .map((item) => ({ id: item, title: item, tags: [], sectionTitle: "Treatment" }))
+      .map((item) => ({ id: item, title: item, tags: [], sectionTitle: "Treatment", comment: "" }))
 
-    diagnosticsToAdd.forEach((item) => {
-      if (!isPrescribed(item.id)) {
-        addPrescription(item)
-        setCheckedItems((prev) => new Set(prev).add(item.id))
-      }
-    })
-
-    treatmentsToAdd.forEach((item) => {
-      if (!isPrescribed(item.id)) {
-        addPrescription(item)
-        setCheckedItems((prev) => new Set(prev).add(item.id))
-      }
-    })
+    const itemsToAdd = [...diagnosticsToAdd, ...treatmentsToAdd]
+    
+    const newCheckedItems = new Set(itemsToAdd.map(item => item.id));
+    
+    setCheckedItems(newCheckedItems);
+    setPrescriptions(itemsToAdd)
   }
 
   return (
     <div className="h-screen flex flex-col bg-[#FCFFFE] overflow-hidden">
       {/* Fixed Header */}
-      <Header title="The diagnosis of ICB - I10 essential (primary) hypertension" onSearchClick={handleSearchClick} />
+      <Header title="The diagnosis of ICB - I10 essential (primary) hypertension"  />
 
       {/* Main Content Area - Takes remaining height */}
       <div className="flex flex-1 min-h-0">
         <LeftSidebar onAddToCard={handleAddToCard} />
-        <MainContent medicalData={medicalData} checkedItems={checkedItems} onItemToggle={handleItemToggle} />
         <RightSidebar
           prescriptions={prescriptions}
           onRemovePrescription={handleRemovePrescription}
           onUpdateComment={updateComment}
+          onSearchClick={handleSearchClick}
         />
+        <MainContent medicalData={medicalData} checkedItems={checkedItems} onItemToggle={handleItemToggle} />
       </div>
 
       <SearchModal

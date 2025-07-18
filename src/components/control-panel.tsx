@@ -46,12 +46,15 @@ export function ControlPanel({ activeTab, groupMode, onTabChange, onGroupModeCha
 
       {/* Tab Controls */}
       <div className="flex flex-row items-center gap-4 justify-between">
-        <div className="bg-gray-100 rounded-lg p-1 flex items-center gap-1 w-min-[240px]">
+        <div className="bg-gray-100 rounded-lg p-1 flex items-center gap-1">
           <Button
             variant={activeTab === "diagnostics" ? "default" : "ghost"}
             // size="sm"
             onClick={() => onTabChange("diagnostics")}
-            className="text-sm w-[240px]"
+            className={activeTab === "diagnostics" 
+              ? "text-sm bg-white hover:bg-gray-50 text-gray-800" 
+              : "text-sm"
+            }
           >
             Diagnostics
           </Button>
@@ -59,7 +62,10 @@ export function ControlPanel({ activeTab, groupMode, onTabChange, onGroupModeCha
             variant={activeTab === "treatment" ? "default" : "ghost"}
             // size="sm"
             onClick={() => onTabChange("treatment")}
-            className="text-sm w-[240px]"
+            className={activeTab === "treatment" 
+              ? "text-sm bg-white hover:bg-gray-50 text-gray-800"
+              : "text-sm"
+            }
           >
             Treatment
           </Button>

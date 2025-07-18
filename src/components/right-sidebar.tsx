@@ -1,20 +1,37 @@
+import { useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { PrescriptionItem } from "./prescription-item"
-// import { EmptyPrescription } from "./emptyPrescription"
+import { Search, X } from "lucide-react"
+import { Input } from "@/components/ui/input"
 import type { PrescriptionItem as PrescriptionItemType } from "@/types/medical"
 
 interface RightSidebarProps {
   prescriptions: PrescriptionItemType[]
   onRemovePrescription: (id: string) => void
   onUpdateComment: (id: string, comment: string) => void
+    onClose?: () => void
+  onSearchClick: () => void
 }
 
-export function RightSidebar({ prescriptions, onRemovePrescription, onUpdateComment }: RightSidebarProps) {
+export function RightSidebar({ prescriptions, onRemovePrescription, onUpdateComment, onClose, onSearchClick  }: RightSidebarProps) {
   const diagnosticPrescriptions = prescriptions.filter((p) => p.sectionTitle === "Diagnostics")
   const treatmentPrescriptions = prescriptions.filter((p) => p.sectionTitle === "Treatment")
 
+  // Handle Cmd+K shortcut
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault()
+        onSearchClick()
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown)
+    return () => document.removeEventListener("keydown", handleKeyDown)
+  }, [onSearchClick])
+
   return (
-    <div className="w-120 bg-[#F5FAF8] border-l flex flex-col h-full">
+    <div className="w-400 bg-[#F5FAF8] border-r flex flex-col h-full">
       {/* Scrollable Content Area */}
       <div className="flex-1 overflow-y-auto p-3 scrollbar-hide">
         <style>
@@ -24,8 +41,9 @@ export function RightSidebar({ prescriptions, onRemovePrescription, onUpdateComm
             }
           `}
         </style>
+        
         <h2 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-6 pt-3">PRESCRIPTIONS</h2>
-
+        
         <div className="space-y-6">
           <div>
             <h3 className="font-medium mb-3 text-sm">Diagnostics</h3>
@@ -70,7 +88,7 @@ export function RightSidebar({ prescriptions, onRemovePrescription, onUpdateComm
 
       {/* Fixed Bottom Button */}
       <div className="p-3">
-        <Button className="w-full h-20" disabled={prescriptions.length === 0}>
+        <Button className="w-full h-20 cursor-pointer" disabled={prescriptions.length === 0}>
           Record to the card
         </Button>
       </div>

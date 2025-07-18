@@ -29,11 +29,11 @@ export function Header({ title, onClose, onSearchClick }: HeaderProps) {
     <div className="bg-[#F5F7F6] border-b px-6 py-2 flex items-center justify-between">
       <h1 className="text-sm font-semibold text-gray-900">{title}</h1>
       <div className="flex items-center gap-4">
-        <div className="relative bg-gray-200 bg-clip-border rounded-lg">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+        <div className="relative bg-gray-200 bg-clip-border rounded-lg mr-120">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-800 w-4 h-4" />
           <Input
             placeholder="Prescribe diagnostics or treatment..."
-            className="pl-10 pr-16 w-80 cursor-pointer shadow-none border-none"
+            className="pl-10 pr-16 w-120 cursor-pointer shadow-none border-none file:text-gray-100"
             onClick={onSearchClick}
             readOnly
           />

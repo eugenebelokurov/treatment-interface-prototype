@@ -26,7 +26,7 @@ export function DiagnosticSection({ title, items, checkedItems, onItemToggle }: 
               sectionTitle={title}
               checked={checkedItems.has(id)}
               index={index} // Pass the index for alternating colors
-              onCheckedChange={onItemToggle}
+              onCheckedChange={(checked, item) => onItemToggle(checked, item)}
             />
           )
         })}

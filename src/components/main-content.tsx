@@ -9,7 +9,7 @@ import type { MedicalData } from "@/types/medical"
 interface MainContentProps {
   medicalData: MedicalData
   checkedItems: Set<string>
-  onItemToggle: (checked: boolean, item: { id: string; title: string; tags: string[]; sectionTitle: string }) => void
+  onItemToggle: (checked: boolean, item: { id: string; title: string; tags: string[]; sectionTitle?: string }, sectionTitle: string) => void
 }
 
 export function MainContent({ medicalData, checkedItems, onItemToggle }: MainContentProps) {
@@ -19,7 +19,7 @@ export function MainContent({ medicalData, checkedItems, onItemToggle }: MainCon
   return (
     <div className="flex-1 flex flex-col bg-[#FCFFFE] h-full min-h-0">
       {/* Fixed Top Section - Header and Control Panel */}
-      <div className="flex-shrink-0 p-6 pb-4 bg-[#FCFFFE]">
+      <div className="flex-shrink-0 px-3 pt-6 pb-4 bg-[#FCFFFE]">
         <h2 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-4">DIAGNOSTICS AND TREATMENT</h2>
         <ControlPanel
           activeTab={activeTab}
@@ -30,7 +30,7 @@ export function MainContent({ medicalData, checkedItems, onItemToggle }: MainCon
       </div>
 
       {/* Scrollable Medical Data Sections */}
-      <div className="flex-1 overflow-y-auto p-6 pt-4 bg-[#FCFFFE] scrollbar-hide">
+      <div className="flex-1 overflow-y-auto p-3 pt-4 bg-[#FCFFFE] scrollbar-hide">
         <style>
           {`
             .scrollbar-hide::-webkit-scrollbar {
@@ -38,7 +38,7 @@ export function MainContent({ medicalData, checkedItems, onItemToggle }: MainCon
             }
           `}
         </style>
-        <div className="max-w-4xl space-y-6">
+        <div className="space-y-6">
           {Object.entries(medicalData).map(([key, condition]) => (
             <div key={key} className="space-y-0">
               <ConditionSection
@@ -53,7 +53,7 @@ export function MainContent({ medicalData, checkedItems, onItemToggle }: MainCon
                   title={section.title}
                   items={section.items}
                   checkedItems={checkedItems}
-                  onItemToggle={onItemToggle}
+                  onItemToggle={(checked, item) => onItemToggle(checked, item, section.title)}
                 />
               ))}
             </div>

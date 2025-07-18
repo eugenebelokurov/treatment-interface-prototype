@@ -1,10 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, HelpCircle, Settings, Sparkles } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { TemplateCard } from "./template-card"
-import { SidebarNavigation } from "./sidebar-navigation"
 import { TemplateSidePanel } from "./template-side-panel"
 
 const additionalActions = [
@@ -78,58 +78,61 @@ export function LeftSidebar({ onAddToCard }: LeftSidebarProps) {
   }
 
   return (
-    <div className="relative w-64 bg-[#F5F7F6] border-r flex flex-col h-full">
-      {/* Fixed Top Section - Additional Actions */}
-      <div className="flex-shrink-0 p-1 border-b">
-        <AdditionalActions actions={additionalActions} />
-      </div>
-
-      {/* Scrollable Middle Section - Templates */}
-      <div className="flex-1 flex flex-col min-h-0">
-        {/* Fixed Templates Header */}
-        <div className="flex-shrink-0 px-3 pt-3">
-          <div className="flex items-center justify-between">
-            <h3 className="text-xs font-medium text-gray-500 uppercase tracking-wide">TEMPLATES (5)</h3>
-            <Button variant="ghost" size="sm" className="text-xs">
-              Create <ChevronDown className="w-3 h-3 ml-1" />
-            </Button>
-          </div>
+    <div className="flex h-full relative">
+      <div className="w-72 bg-[#F5F7F6] border-r flex flex-col h-full z-30">
+        {/* Fixed Top Section - Additional Actions */}
+        <div className="flex-shrink-0 p-1 border-b">
+          <AdditionalActions actions={additionalActions} />
         </div>
 
-        {/* Scrollable Templates Content */}
-        <div className="flex-1 overflow-y-auto p-3 scrollbar-hide">
-          <style>
-            {`
+        {/* Scrollable Middle Section - Templates */}
+        <div className="flex-1 flex flex-col min-h-0">
+          {/* Fixed Templates Header */}
+          <div className="flex-shrink-0 px-3 pt-3">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xs font-medium text-gray-500 uppercase tracking-wide">TEMPLATES (5)</h3>
+              <Button variant="ghost" size="sm" className="text-xs">
+                Create <ChevronDown className="w-3 h-3 ml-1" />
+              </Button>
+            </div>
+          </div>
+
+          {/* Scrollable Templates Content */}
+          <div className="flex-1 overflow-y-auto p-3 scrollbar-hide">
+            <style>
+              {`
               .scrollbar-hide::-webkit-scrollbar {
                 display: none;
               }
             `}
-          </style>
-          <div className="space-y-4">
-            {templates.map((template, index) => (
-              <TemplateCard
-                key={index}
-                {...template}
-                onOpen={() => handleOpenPanel(template)}
-                isSelected={selectedTemplate?.title === template.title && isPanelOpen}
-              />
-            ))}
+            </style>
+            <div className="space-y-4">
+              {templates.map((template, index) => (
+                <TemplateCard
+                  key={index}
+                  {...template}
+                  onOpen={() => handleOpenPanel(template)}
+                  isSelected={selectedTemplate?.title === template.title && isPanelOpen}
+                />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Fixed Bottom Section - Navigation */}
-      <div className="flex-shrink-0 border-t">
-        <SidebarNavigation />
+        {/* Fixed Bottom Section - Navigation */}
+        <div className="flex-shrink-0 border-t">
+          <SidebarNavigation />
+        </div>
       </div>
-      {isPanelOpen && selectedTemplate && (
-        <TemplateSidePanel
-          template={selectedTemplate}
-          onClose={handleClosePanel}
-          isOpen={isPanelOpen}
-          onAddToCard={handleAddToCard}
-        />
-      )}
+      <AnimatePresence>
+        {isPanelOpen && selectedTemplate && (
+          <TemplateSidePanel
+            template={selectedTemplate}
+            onClose={handleClosePanel}
+            onAddToCard={handleAddToCard}
+          />
+        )}
+      </AnimatePresence>
     </div>
   )
 }
@@ -144,14 +147,35 @@ interface AdditionalActionsProps {
 function AdditionalActions({ actions }: AdditionalActionsProps) {
   return (
     <div>
-      <h3 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1 pl-1 pt-5">ADDITIONAL ACTIONS</h3>
+      <h3 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1 pl-2 pt-5">ADDITIONAL ACTIONS</h3>
       <div className="space-y-0">
         {actions.map((action, index) => (
-          <div key={index} className="px-1 py-2 hover:bg-[#F0F0F0] rounded-sm cursor-pointer">
+          <div key={index} className="px-2 py-2 hover:bg-[#F0F0F0] rounded-sm cursor-pointer">
             <div className="font-medium text-sm">{action.title}</div>
             <div className="text-xs font-medium text-gray-500">{action.description}</div>
           </div>
         ))}
+      </div>
+    </div>
+  )
+}
+
+function SidebarNavigation() {
+  return (
+    <div className="p-1">
+      <div className="space-y-0">
+        <Button variant="ghost" className="w-full justify-start text-sm text-[#3D3D3D] cursor-pointer hover:bg-[#F0F0F0]">
+          <HelpCircle className="w-4 h-4 mr-1 stroke-[#666666]" />
+          Support
+        </Button>
+        <Button variant="ghost" className="w-full justify-start text-sm text-[#3D3D3D] cursor-pointer hover:bg-[#F0F0F0]">
+          <Settings className="w-4 h-4 mr-1 stroke-[#666666]" />
+          Settings
+        </Button>
+        <Button variant="ghost" className="w-full justify-start text-sm text-[#3D3D3D] cursor-pointer hover:bg-[#F0F0F0]">
+          <Sparkles className="w-4 h-4 mr-1 stroke-[#666666]" />
+          What's new
+        </Button>
       </div>
     </div>
   )

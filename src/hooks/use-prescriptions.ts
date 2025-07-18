@@ -32,6 +32,7 @@ export function usePrescriptions() {
 
   return {
     prescriptions,
+    setPrescriptions,
     addPrescription,
     removePrescription,
     updateComment,

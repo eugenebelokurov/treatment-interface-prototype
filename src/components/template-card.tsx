@@ -55,7 +55,12 @@ export function TemplateCard({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={onOpen}>Open</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => alert("Delete clicked")}>Delete</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => alert("Delete clicked")}
+                className="focus:bg-red-100 focus:text-red-500"
+              >
+                Delete
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

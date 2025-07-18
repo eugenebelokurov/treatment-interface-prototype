@@ -27,16 +27,14 @@ export function DiagnosticItem({
     onCheckedChange?.(checkedState, { id, title, tags, sectionTitle })
   }
 
-  // Alternating background: even indices (0, 2, 4...) get #FAFAFA, odd indices get no fill
-  const backgroundColor = index % 2 === 0 ? "bg-gray-100" : "bg-transparent"
-  console.log("DiagnosticItem rendered", { id, title, tags, sectionTitle, checked, index })
+  const backgroundColor = index % 2 === 0 ? "bg-[#FAFAFA]" : "bg-transparent"
 
   return (
     <div
       className={`flex items-center justify-between p-3 rounded-lg transition-colors hover:bg-[#F0F0F0] ${backgroundColor} cursor-pointer`}
     >
       <div className="flex items-center gap-3">
-        <Checkbox checked={checked} onCheckedChange={handleCheckedChange} />
+        <Checkbox checked={checked} onCheckedChange={handleCheckedChange} className="border-gray-300"/>
         <span className="text-sm font-normal">{title}</span>
       </div>
       <div className="flex gap-2">
