@@ -1,8 +1,6 @@
 import { useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { PrescriptionItem } from "./prescription-item"
-import { Search, X } from "lucide-react"
-import { Input } from "@/components/ui/input"
 import type { PrescriptionItem as PrescriptionItemType } from "@/types/medical"
 
 interface RightSidebarProps {
@@ -14,8 +12,8 @@ interface RightSidebarProps {
 }
 
 export function RightSidebar({ prescriptions, onRemovePrescription, onUpdateComment, onClose, onSearchClick  }: RightSidebarProps) {
-  const diagnosticPrescriptions = prescriptions.filter((p) => p.sectionTitle === "Diagnostics")
-  const treatmentPrescriptions = prescriptions.filter((p) => p.sectionTitle === "Treatment")
+  const diagnosticPrescriptions = prescriptions.filter((p) => p.prescriptionType === "Diagnostics")
+  const treatmentPrescriptions = prescriptions.filter((p) => p.prescriptionType === "Treatment")
 
   // Handle Cmd+K shortcut
   useEffect(() => {

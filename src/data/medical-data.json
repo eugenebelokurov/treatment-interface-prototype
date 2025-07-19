@@ -2,6 +2,7 @@
   "hypertensive_crisis": {
     "title": "Hypertensive crisis",
     "type": "indication",
+    "prescriptionType": "Diagnostics",
     "description": "Indications for the appointment",
     "sections": {
       "instrumental_research": {

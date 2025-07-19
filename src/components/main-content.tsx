@@ -53,7 +53,7 @@ export function MainContent({ medicalData, checkedItems, onItemToggle }: MainCon
                   title={section.title}
                   items={section.items}
                   checkedItems={checkedItems}
-                  onItemToggle={(checked, item) => onItemToggle(checked, item, section.title)}
+                  onItemToggle={(checked, item) => onItemToggle(checked, item, condition.prescriptionType)}
                 />
               ))}
             </div>

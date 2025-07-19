@@ -48,6 +48,7 @@ export default function MedicalInterface() {
       title: item.title,
       tags: item.tags,
       comment: "",
+      prescriptionType: safeSectionTitle,
     }
 
     if (checked) {
@@ -75,11 +76,11 @@ export default function MedicalInterface() {
   const handleAddToCard = (template: any) => {
     const diagnosticsToAdd = diagnosticsList
       .slice(0, template.diagnostics as number)
-      .map((item) => ({ id: item, title: item, tags: [], sectionTitle: "Diagnostics", comment: "" }))
+      .map((item) => ({ id: item, title: item, tags: [], sectionTitle: "Diagnostics", prescriptionType: "Diagnostics", comment: "" }))
 
     const treatmentsToAdd = treatmentList
       .slice(0, template.treatment as number)
-      .map((item) => ({ id: item, title: item, tags: [], sectionTitle: "Treatment", comment: "" }))
+      .map((item) => ({ id: item, title: item, tags: [], sectionTitle: "Treatment", prescriptionType: "Treatment", comment: "" }))
 
     const itemsToAdd = [...diagnosticsToAdd, ...treatmentsToAdd]
     
@@ -92,7 +93,7 @@ export default function MedicalInterface() {
   return (
     <div className="h-screen flex flex-col bg-[#FCFFFE] overflow-hidden">
       {/* Fixed Header */}
-      <Header title="The diagnosis of ICB - I10 essential (primary) hypertension"  />
+      <Header title="The diagnosis of ICB - I10 essential (primary) hypertension" onSearchClick={handleSearchClick} />
 
       {/* Main Content Area - Takes remaining height */}
       <div className="flex flex-1 min-h-0">

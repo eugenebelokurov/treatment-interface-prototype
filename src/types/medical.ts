@@ -7,12 +7,14 @@ export interface DiagnosticItem {
 
 export interface PrescriptionItem extends DiagnosticItem {
   comment?: string
+  prescriptionType: string
 }
 
 export interface MedicalData {
   [key: string]: {
     title: string
     type: string
+    prescriptionType: string
     description?: string
     sections: {
       [key: string]: {
