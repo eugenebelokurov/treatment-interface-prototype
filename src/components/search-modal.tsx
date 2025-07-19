@@ -211,8 +211,8 @@ export function SearchModal({ isOpen, onClose, medicalData, selectedItems, onIte
                             </div>
                             <div className="flex gap-1">
                               {item.tags.map((tag, tagIndex) => (
-                                <div>
-                                <Badge key={tagIndex} variant="secondary" className="text-xs bg-blue-100 text-blue-700">
+                                <div key={tagIndex}>
+                                <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-700">
                                   <HighlightedText text={tag} searchQuery={searchQuery} />
                                 </Badge>
                                 </div>
