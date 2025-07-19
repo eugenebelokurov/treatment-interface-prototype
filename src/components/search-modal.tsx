@@ -18,7 +18,7 @@ interface SearchModalProps {
   onClose: () => void
   medicalData: MedicalData
   selectedItems: Set<string>
-  onItemSelect: (checked: boolean, item: { id: string; title: string; tags: string[]; sectionTitle: string }) => void
+  onItemSelect: (checked: boolean, item: { id: string; title: string; tags: string[]; sectionTitle: string, prescriptionType: string }) => void
 }
 
 // Component to highlight matching text
@@ -112,7 +112,7 @@ export function SearchModal({ isOpen, onClose, medicalData, selectedItems, onIte
     return () => document.removeEventListener("keydown", handleKeyDown)
   }, [isOpen, focusedIndex, selectedItems, onClose])
 
-  const handleItemSelect = (item: { id: string; title: string; tags: string[]; sectionTitle: string }) => {
+  const handleItemSelect = (item: { id: string; title: string; tags: string[]; sectionTitle: string; prescriptionType: string }) => {
     const isCurrentlySelected = selectedItems.has(item.id)
     onItemSelect(!isCurrentlySelected, item)
   }

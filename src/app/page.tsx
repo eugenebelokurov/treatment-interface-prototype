@@ -36,11 +36,12 @@ export default function MedicalInterface() {
 
   const handleItemToggle = (
     checked: boolean,
-    item: { id: string; title: string; tags: string[]; sectionTitle?: string },
+    item: { id: string; title: string; tags: string[]; sectionTitle?: string; prescriptionType?: string },
     sectionTitle?: string,
   ) => {
     const newCheckedItems = new Set(checkedItems)
     const safeSectionTitle = sectionTitle ?? ""; // or provide a more meaningful default
+    const prescriptionType = item.prescriptionType ?? safeSectionTitle
 
     const prescriptionItem = {
       sectionTitle: safeSectionTitle,
@@ -48,7 +49,7 @@ export default function MedicalInterface() {
       title: item.title,
       tags: item.tags,
       comment: "",
-      prescriptionType: safeSectionTitle,
+      prescriptionType: prescriptionType,
     }
 
     if (checked) {

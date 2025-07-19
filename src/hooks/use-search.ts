@@ -8,6 +8,7 @@ interface SearchItem {
   title: string
   tags: string[]
   sectionTitle: string
+  prescriptionType: string
   category: "diagnostics" | "treatment"
 }
 
@@ -27,6 +28,7 @@ export function useSearch(medicalData: MedicalData) {
             title: item.title,
             tags: item.tags,
             sectionTitle: section.title,
+            prescriptionType: condition.prescriptionType,
             category: "diagnostics", // For now, treating all as diagnostics
           })
         })
